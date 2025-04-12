@@ -123,12 +123,31 @@ class HomePage extends StatelessWidget {
         "maxParticipants": 4,
         "currentParticipants": 3
       },
+      {
+        "title": "소시지 같이 구매하실분",
+        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
+        "timeLeft": "2일 후 마감",
+        "maxParticipants": 4,
+        "currentParticipants": 3
+      },
+      {
+        "title": "소시지 같이 구매하실분",
+        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
+        "timeLeft": "2일 후 마감",
+        "maxParticipants": 4,
+        "currentParticipants": 3
+      },
+      {
+        "title": "소시지 같이 구매하실분",
+        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
+        "timeLeft": "2일 후 마감",
+        "maxParticipants": 4,
+        "currentParticipants": 3
+      },
     ];
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        final item = dummyItems[index];
+    return Column(
+      children: dummyItems.map((item) {
         return GestureDetector(
           onTap: () {
             Navigator.push(
@@ -152,8 +171,7 @@ class HomePage extends StatelessWidget {
             currentParticipants: item["currentParticipants"] as int,
           ),
         );
-      },
-      itemCount: dummyItems.length,
+      }).toList(),
     );
   }
 
@@ -163,7 +181,7 @@ class HomePage extends StatelessWidget {
       "banner_0","banner_1"
     ];
     return AspectRatio(
-      aspectRatio: 3,
+      aspectRatio: 2,
       child: (
         Swiper(
           itemCount: banners.length,
@@ -178,7 +196,7 @@ class HomePage extends StatelessWidget {
             );
           },
           viewportFraction: .7,
-          scale: 0.8,
+          scale: 0.86,
         )
       ),
     );
