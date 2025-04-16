@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gomdong/constants/colors.dart';
 import 'package:gomdong/models/list_item_model.dart';
 
 class ListingItem extends StatelessWidget {
@@ -36,10 +37,10 @@ class ListingItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(listingItem.title, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(listingItem.title, style: TextStyle(fontWeight: FontWeight.bold), maxLines: 1),
                     SizedBox(height: 4),
-                    Text(listingItem.totalCount.toString()),
-                    Text(listingItem.totalPrice.toString()),
+                    Text("개수: ${listingItem.totalCount.toString()}"),
+                    Text("가격: ${listingItem.totalPrice.toString()}원 (인당: ${(listingItem.totalPrice / listingItem.maxParticipants).toInt().toString()})"),
                   ],
                 ),
               ),
@@ -60,20 +61,23 @@ class ListingItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: LinearProgressIndicator(
-                  value: listingItem.currentParticipants / listingItem.maxParticipants,
-                  backgroundColor: Colors.grey.shade200,
-                  color: Colors.green.shade700,
-                  minHeight: 6,
-                  borderRadius: BorderRadius.circular(3),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: LinearProgressIndicator(
+                    value: listingItem.currentParticipants / listingItem.maxParticipants,
+                    backgroundColor: Colors.grey.shade200,
+                    color: AppColors.secondary,
+                    minHeight: 6,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
                 ),
-              ),
-              SizedBox(width: 8),
-              Text("$listingItem.currentParticipants/$listingItem.maxParticipants", style: TextStyle(fontSize: 12)),
-            ],
+                SizedBox(width: 20),
+                Text("${listingItem.currentParticipants}/${listingItem.maxParticipants}", style: TextStyle(fontSize: 12)),
+              ],
+            ),
           )
         ],
       ),
