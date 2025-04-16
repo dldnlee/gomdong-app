@@ -1,113 +1,78 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gomdong/constants/colors.dart';
+import 'package:gomdong/models/list_item_model.dart';
 
 class ListingItem extends StatelessWidget {
-  final String title;
-  final String description;
-  final String timeLeft;
-  final int maxParticipants;
-  final int currentParticipants;
+  final ListingItemModel listingItem;
 
   const ListingItem({
     super.key,
-    required this.title,
-    required this.description,
-    required this.timeLeft,
-    required this.maxParticipants,
-    required this.currentParticipants,
+    required this.listingItem,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(width: 1, color: Colors.grey)),
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 90,
-                width: 90,
+                width: 60,
+                height: 60,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(8),
                 ),
+                child: Icon(Icons.image, color: Colors.white),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(
-                          timeLeft,
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      description,
-                      style: TextStyle(fontSize: 13, color: Colors.black87),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    Material(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(10),
-                      child: InkWell(
-                        onTap: () {
-                          print("Hello");
-                        },
-                        splashColor: AppColors.secondary,
-                        highlightColor: AppColors.secondary,
-                        borderRadius: BorderRadius.circular(10),
-                        // borderRadius: BorderRadius.circular(8),
-                        child: SizedBox(
-                          height: 35,
-                          width: double.infinity,
-                          child: Center(
-                            child: const Text(
-                              '신청하기', style: TextStyle(color: Colors.white),
-
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    Text(listingItem.title, style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 4),
+                    Text(listingItem.totalCount.toString()),
+                    Text(listingItem.totalPrice.toString()),
                   ],
                 ),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  // 신청하기 액션
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+                child: Text("신청하기"),
+              )
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 10),
           Row(
             children: [
               Expanded(
                 child: LinearProgressIndicator(
-                  value: currentParticipants / maxParticipants,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.secondary),
+                  value: listingItem.currentParticipants / listingItem.maxParticipants,
+                  backgroundColor: Colors.grey.shade200,
+                  color: Colors.green.shade700,
                   minHeight: 6,
+                  borderRadius: BorderRadius.circular(3),
                 ),
               ),
-              const SizedBox(width: 8),
-              Text(
-                '$currentParticipants/$maxParticipants',
-                style: TextStyle(fontSize: 12),
-              ),
+              SizedBox(width: 8),
+              Text("$listingItem.currentParticipants/$listingItem.maxParticipants", style: TextStyle(fontSize: 12)),
             ],
           )
         ],

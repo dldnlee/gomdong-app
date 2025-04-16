@@ -2,9 +2,9 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gomdong/components/listing/ListingItem.dart';
+import 'package:gomdong/constants/dummyData.dart';
 import 'package:gomdong/pages/create/CreateListingPage.dart';
-import 'package:gomdong/pages/detail/DetailPage.dart';
+import 'package:gomdong/pages/search/SearchPage.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -16,11 +16,20 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         leadingWidth: 100,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Gomdong"),
-            Text("노고산동2", style: TextStyle(fontSize: 15))
-          ]
+            Image.asset("assets/icons/gomdong_text_logo.png", height: 100, fit: BoxFit.contain,),
+            Spacer(),
+            Text("노고산동2", style: TextStyle(fontSize: 15)),
+            IconButton(
+              icon: Icon(Icons.search, color: Colors.black),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SearchPage()),
+                );
+              },
+            ),
+          ],
         ),
       ),
       backgroundColor: Colors.white,
@@ -29,7 +38,7 @@ class HomePage extends StatelessWidget {
           children: [
             _buildHomeBanner(context),
             _buildCategories(context),
-            Divider(),
+            _buildHomeAdBanner(context),
             _buildListings(context)
           ]
         ),
@@ -49,7 +58,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildCategories(BuildContext context) {
-    final categories = ['채소', '과일', '정육', '음료', '기타'];
+    final categories = ['재료', '생필품', '간식', '배달', '기타'];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -67,16 +76,12 @@ class HomePage extends StatelessWidget {
                 },
                 child: CircleAvatar(
                   radius: 23,
-                  backgroundColor: Colors.grey[200],
-                  child: Icon(
-                    _getCategoryIcon(category),
-                    color: Color.fromRGBO(164, 180, 101, 1),
-                    size: 20,
-                  ),
+                  backgroundColor: Colors.transparent,
+                  child: _getCategoryIcon(category),
                 ),
               ),
               SizedBox(height: 6),
-              Text(category, style: TextStyle(fontSize: 12)),
+              Text(category, style: TextStyle(fontSize: 13)),
             ],
 
           );
@@ -85,93 +90,148 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  IconData _getCategoryIcon(String category) {
+  Widget _getCategoryIcon(String category) {
+    String assetName;
     switch (category) {
-      case '채소':
-        return Icons.eco;
-      case '과일':
-        return Icons.apple;
-      case '정육':
-        return Icons.set_meal;
-      case '음료':
-        return Icons.local_drink;
+      case '재료':
+        assetName = 'assets/icons/ingredients.png';
+        break;
+      case '생필품':
+        assetName = 'assets/icons/necessities.png';
+        break;
+      case '간식':
+        assetName = 'assets/icons/snacks.png';
+        break;
+      case '배달':
+        assetName = 'assets/icons/delivery.png';
+        break;
       default:
-        return Icons.category;
+        assetName = 'assets/icons/others.png';
+        break;
     }
+
+    return Image.asset(
+      assetName,
+      width: 45,
+      height: 45,
+    );
   }
 
   Widget _buildListings(BuildContext context) {
-    final dummyItems = [
-      {
-        "title": "감자 같이 구매하실분",
-        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
-        "timeLeft": "2일 후 마감",
-        "maxParticipants": 4,
-        "currentParticipants": 3
-      },
-      {
-        "title": "당근 같이 구매하실분",
-        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
-        "timeLeft": "2일 후 마감",
-        "maxParticipants": 2,
-        "currentParticipants": 1
-      },
-      {
-        "title": "소시지 같이 구매하실분",
-        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
-        "timeLeft": "2일 후 마감",
-        "maxParticipants": 4,
-        "currentParticipants": 3
-      },
-      {
-        "title": "소시지 같이 구매하실분",
-        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
-        "timeLeft": "2일 후 마감",
-        "maxParticipants": 4,
-        "currentParticipants": 3
-      },
-      {
-        "title": "소시지 같이 구매하실분",
-        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
-        "timeLeft": "2일 후 마감",
-        "maxParticipants": 4,
-        "currentParticipants": 3
-      },
-      {
-        "title": "소시지 같이 구매하실분",
-        "desc": "12개에 2천원인데 혼자 사기에는 너무 많아요. 같이 구매하실분..",
-        "timeLeft": "2일 후 마감",
-        "maxParticipants": 4,
-        "currentParticipants": 3
-      },
-    ];
+    final dummyItems = DummyData.listingDummyItems;
 
     return Column(
-      children: dummyItems.map((item) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailPage(
-                  title: item["title"] as String,
-                  description: item["desc"] as String,
-                  timeLeft: item["timeLeft"] as String,
-                  maxParticipants: item["maxParticipants"] as int,
-                  currentParticipants: item["currentParticipants"] as int,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("지금 곰동하기", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    child: Text("더보기"),
+                  ),
+                  SizedBox(width: 5,),
+                  Icon(Icons.arrow_forward_ios_outlined, size: 12,)
+                ],
+              )
+            ],
+          ),
+        ),
+        Column(
+          children: dummyItems.map((item) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10),
+              child: Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey.shade300),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(Icons.image, color: Colors.white),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(item["title"] as String, style: TextStyle(fontWeight: FontWeight.bold)),
+                              SizedBox(height: 4),
+                              Text("수량: 12개"),
+                              Text("총 가격: 2,000원"),
+                            ],
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // 신청하기 액션
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )
+                          ),
+                          child: Text("신청하기"),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: LinearProgressIndicator(
+                            value: (item["currentParticipants"] as int) / (item["maxParticipants"] as int),
+                            backgroundColor: Colors.grey.shade200,
+                            color: Colors.green.shade700,
+                            minHeight: 6,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text("${item["currentParticipants"]}/${item["maxParticipants"]}", style: TextStyle(fontSize: 12)),
+                      ],
+                    )
+                  ],
                 ),
               ),
             );
-          },
-          child: ListingItem(
-            title: item["title"] as String,
-            description: item["desc"] as String,
-            timeLeft: item["timeLeft"] as String,
-            maxParticipants: item["maxParticipants"] as int,
-            currentParticipants: item["currentParticipants"] as int,
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHomeAdBanner(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, ),
+      child: (
+        Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.circular(10)
           ),
-        );
-      }).toList(),
+        )
+      ),
     );
   }
 
@@ -181,10 +241,11 @@ class HomePage extends StatelessWidget {
       "banner_0","banner_1"
     ];
     return AspectRatio(
-      aspectRatio: 2,
+      aspectRatio: 2.5,
       child: (
         Swiper(
           itemCount: banners.length,
+          autoplay: true,
           itemBuilder: (BuildContext context, int index){
             return ClipRRect(
               borderRadius: BorderRadius.circular(10),
@@ -195,8 +256,8 @@ class HomePage extends StatelessWidget {
               ),
             );
           },
-          viewportFraction: .7,
-          scale: 0.86,
+          viewportFraction: .9,
+          scale: 0.80,
         )
       ),
     );
