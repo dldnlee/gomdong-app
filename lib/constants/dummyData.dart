@@ -1,3 +1,5 @@
+import '../models/chat_room_model.dart';
+
 class DummyData {
   static const listingDummyItems = [
     {
@@ -102,5 +104,75 @@ class DummyData {
       "creatorId": "user_masker",
       "location": "서울 마포구"
     }
+  ];
+
+  static const currentUserId = "user_001";
+
+
+  static final List<ChatRoomModel> dummyChatRooms = [
+    ChatRoomModel(
+      id: "room_001",
+      itemId: "item_001",
+      itemName: "친환경 키친타올 6롤",
+      itemImageUrl: "https://via.placeholder.com/150",
+      maxParticipants: 4,
+      participantIds: ["user_001", "user_002", "user_003"],
+      messages: [
+        MessageModel(
+          senderId: "user_001",
+          content: "이거 언제 주문 들어가요?",
+          timestamp: DateTime.now().subtract(const Duration(minutes: 30)),
+        ),
+        MessageModel(
+          senderId: "user_002",
+          content: "3명 모이면 바로 결제할게요!",
+          timestamp: DateTime.now().subtract(const Duration(minutes: 20)),
+        ),
+      ],
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      closedAt: null,
+      authorId: "user_001"
+    ),
+    ChatRoomModel(
+      id: "room_002",
+      itemId: "item_002",
+      itemName: "고급 원두커피 1kg",
+      itemImageUrl: "https://via.placeholder.com/150",
+      maxParticipants: 5,
+      participantIds: ["user_003", "user_004", "user_005", "user_006"],
+      messages: [
+        MessageModel(
+          senderId: "user_004",
+          content: "커피 너무 좋아요 ㅋㅋ",
+          timestamp: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        MessageModel(
+          senderId: "user_006",
+          content: "같이 사서 싸게 마시자~",
+          timestamp: DateTime.now().subtract(const Duration(minutes: 45)),
+        ),
+      ],
+      createdAt: DateTime.now().subtract(const Duration(days: 2)),
+      closedAt: null,
+      authorId: "user_001"
+    ),
+    ChatRoomModel(
+      id: "room_003",
+      itemId: "item_003",
+      itemName: "라면 박스 (20봉)",
+      itemImageUrl: "https://via.placeholder.com/150",
+      maxParticipants: 4,
+      participantIds: ["user_007"],
+      messages: [
+        MessageModel(
+          senderId: "user_007",
+          content: "라면 좋아하는 사람~",
+          timestamp: DateTime.now().subtract(const Duration(minutes: 15)),
+        ),
+      ],
+      createdAt: DateTime.now().subtract(const Duration(hours: 5)),
+      closedAt: null,
+      authorId: "user_001"
+    ),
   ];
 }

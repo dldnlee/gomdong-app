@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gomdong/constants/dummyData.dart';
+import 'package:gomdong/pages/chat/ChatRoomPage.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
@@ -15,21 +17,37 @@ class ChatPage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: ListView.builder(
-        // padding: const EdgeInsets.all(16),
-        itemCount: 10, // 예시 채팅방 수
+        itemCount: DummyData.dummyChatRooms.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-            leading: CircleAvatar(
-              backgroundColor: Colors.grey[300],
-              child: Text("A${index + 1}"),
-            ),
-            title: Text("채팅방 ${index + 1}"),
-            subtitle: Text("마지막 메시지 내용이 여기에 표시됩니다."),
-            trailing: Text("오전 10:${(index + 1) * 2}"),
+          final room = DummyData.dummyChatRooms[index];
+          final lastMessage = room.messages.isNotEmpty
+              ? room.messages.last.content
+              : "메시지가 없습니다.";
+          final lastTime = room.messages.isNotEmpty
+              ? TimeOfDay.fromDateTime(room.messages.last.timestamp)
+              : null;
+
+          return GestureDetector(
             onTap: () {
-              // 추후 개별 채팅방으로 이동하는 네비게이션 처리
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatRoomPage(chatRoom: room),
+                ),
+              );
             },
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(room.itemImageUrl),
+                backgroundColor: Colors.grey[300],
+              ),
+              title: Text(room.itemName),
+              subtitle: Text(lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis),
+              trailing: lastTime != null
+                  ? Text("${lastTime.hour}:${lastTime.minute.toString().padLeft(2, '0')}")
+                  : null,
+            ),
           );
         },
       ),
