@@ -2,21 +2,14 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:gomdong/constants/colors.dart';
+import 'package:gomdong/models/listing_item_model.dart';
 
 class DetailPage extends StatelessWidget {
-  final String title;
-  final String description;
-  final String timeLeft;
-  final int maxParticipants;
-  final int currentParticipants;
+  final ListingItemModel itemListing;
 
   const DetailPage({
     Key? key,
-    required this.title,
-    required this.description,
-    required this.timeLeft,
-    required this.maxParticipants,
-    required this.currentParticipants,
+    required this.itemListing
   }) : super(key: key);
 
   @override
@@ -39,17 +32,17 @@ class DetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              title,
+              itemListing.title,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
-              description,
+              itemListing.desc,
               style: const TextStyle(fontSize: 15, color: Colors.black87),
             ),
             const SizedBox(height: 20),
             Text(
-              "마감일: $timeLeft",
+              "마감일: ${itemListing.deadline}",
               style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 10),
@@ -57,7 +50,7 @@ class DetailPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: LinearProgressIndicator(
-                    value: currentParticipants / maxParticipants,
+                    value: itemListing.currentParticipants / itemListing.maxParticipants,
                     backgroundColor: Colors.grey[300],
                     valueColor: AlwaysStoppedAnimation<Color>(
                       Color.fromRGBO(164, 180, 101, 1),
@@ -67,7 +60,7 @@ class DetailPage extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  '$currentParticipants / $maxParticipants 명',
+                  '${itemListing.currentParticipants} / ${itemListing.maxParticipants} 명',
                   style: const TextStyle(fontSize: 12),
                 )
               ],

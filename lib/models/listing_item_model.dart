@@ -14,6 +14,7 @@ class ListingItemModel {
   final List<String> tags;
   final String creatorId;
   final String location;
+  final String authorId; // Added field
 
   ListingItemModel({
     required this.itemId,
@@ -31,6 +32,7 @@ class ListingItemModel {
     required this.tags,
     required this.creatorId,
     required this.location,
+    required this.authorId, // Updated constructor
   });
 
   factory ListingItemModel.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ class ListingItemModel {
       tags: List<String>.from(json['tags'] ?? []),
       creatorId: json['creatorId'] ?? '',
       location: json['location'] ?? '',
+      authorId: json['authorId'] ?? '', // Updated fromJson
     );
   }
 
@@ -70,6 +73,7 @@ class ListingItemModel {
       'tags': tags,
       'creatorId': creatorId,
       'location': location,
+      'authorId': authorId, // Updated toJson
     };
   }
 }

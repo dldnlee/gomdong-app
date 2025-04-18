@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gomdong/components/listing/ListingItem.dart';
 import 'package:gomdong/constants/dummyData.dart';
-import 'package:gomdong/models/list_item_model.dart';
+import 'package:gomdong/models/listing_item_model.dart';
 import 'package:gomdong/pages/create/CreateListingPage.dart';
 import 'package:gomdong/pages/search/SearchPage.dart';
 
@@ -139,6 +139,12 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     child: Text("더보기"),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchPage())
+                      );
+                    },
                   ),
                   SizedBox(width: 5,),
                   Icon(Icons.arrow_forward_ios_outlined, size: 12,)
