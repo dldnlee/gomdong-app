@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:gomdong/constants/colors.dart';
 import 'package:gomdong/models/listing_item_model.dart';
